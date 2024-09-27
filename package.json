@@ -1,8 +1,8 @@
 {
-  "name": "godotsceneselector",
-  "displayName": "GodotSceneSelector",
-  "description": "Command for selecting a godot scene",
-  "version": "0.0.1",
+  "name": "GodotTools",
+  "displayName": "Godot Tools",
+  "description": "VSCode tools for godot",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.93.0"
   },
