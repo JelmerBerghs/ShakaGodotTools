@@ -10,18 +10,45 @@ export function activate(context: vscode.ExtensionContext) {
 		cwd = vscode.workspace.workspaceFolders[0].uri.fsPath + "\\";
 	}
 
-	const command = vscode.commands.registerCommand('godotsceneselector.selectscene', async () => {
+	const cmdSelectScene = vscode.commands.registerCommand('GodotTools.SelectScene', async () => {
 		const files = await vscode.workspace.findFiles("**/*.tscn");
-		return await vscode.window.showQuickPick(files.map(v => v.fsPath.replace(cwd, ''))).then((value => {
-			if (value !== undefined) {
-				return value;
-			}
-			return "";
-		}));
+		
+		return await vscode.window.showQuickPick(
+			files.map(file => { 
+				var fileName = file.fsPath.split("\\").pop();
+				var item : QuickPickItemScene = {
+					label: fileName!,
+					description: file.fsPath.replace(cwd, ''),
+					file: file
+				};
+				return item;
+			})).then((value => {
+				vscode.window.showInformationMessage(`Selected ${value?.label}`);
+				if (value !== undefined) {
+					return value.description?.replace(cwd, '');
+				}
+				return "";
+			}));
 	});
 
-	context.subscriptions.push(command);
+	context.subscriptions.push(cmdSelectScene);
 }
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
+
+class QuickPickItemScene implements vscode.QuickPickItem {
+	label: string;
+	kind?: vscode.QuickPickItemKind | undefined;
+	iconPath?: vscode.Uri | vscode.ThemeIcon | { light: vscode.Uri; dark: vscode.Uri; } | undefined;
+	description?: string | undefined;
+	detail?: string | undefined;
+	picked?: boolean | undefined;
+	alwaysShow?: boolean | undefined;
+	buttons?: readonly vscode.QuickInputButton[] | undefined;
+	file?: vscode.Uri;
+	constructor(_label: string){
+		this.label = _label;
+	}
+
+  };
