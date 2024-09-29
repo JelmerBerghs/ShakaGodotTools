@@ -15,7 +15,8 @@
     "commands": [
       {
         "command": "GodotTools.SelectScene",
-        "title": "Godot Tools: Select scene"
+        "title": "Godot Tools: Select scene",
+        "icon": "$(debug-alt)"
       }
     ]
   },

@@ -10,26 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 		cwd = vscode.workspace.workspaceFolders[0].uri.fsPath + "\\";
 	}
 
-	const cmdSelectScene = vscode.commands.registerCommand('GodotTools.SelectScene', async () => {
-		const files = await vscode.workspace.findFiles("**/*.tscn");
-		
-		return await vscode.window.showQuickPick(
-			files.map(file => { 
-				var fileName = file.fsPath.split("\\").pop();
-				var item : QuickPickItemScene = {
-					label: fileName!,
-					description: file.fsPath.replace(cwd, ''),
-					file: file
-				};
-				return item;
-			})).then((value => {
-				vscode.window.showInformationMessage(`Selected ${value?.label}`);
-				if (value !== undefined) {
-					return value.description?.replace(cwd, '');
-				}
-				return "";
-			}));
-	});
+	const cmdSelectScene = CommandSelectScene();
 
 	context.subscriptions.push(cmdSelectScene);
 }
@@ -52,3 +33,27 @@ class QuickPickItemScene implements vscode.QuickPickItem {
 	}
 
   };
+
+function CommandSelectScene()
+{
+	return vscode.commands.registerCommand('GodotTools.SelectScene', async () => {
+		const files = await vscode.workspace.findFiles("**/*.tscn");
+		
+		return await vscode.window.showQuickPick(
+			files.map(file => { 
+				var fileName = file.fsPath.split("\\").pop();
+				var item : QuickPickItemScene = {
+					label: fileName!,
+					description: file.fsPath.replace(cwd, ''),
+					file: file
+				};
+				return item;
+			})).then((value => {
+				vscode.window.showInformationMessage(`Selected ${value?.label}`);
+				if (value !== undefined) {
+					return value.description?.replace(cwd, '');
+				}
+				return "";
+			}));
+	});
+}
