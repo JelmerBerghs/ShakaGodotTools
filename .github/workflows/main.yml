@@ -13,7 +13,7 @@ jobs:
           ls
       - name: create zip
         run: |
-          zip plugin.zip ./
+          zip plugin.zip ./ -r
       - name: list files
         run: |
           ls
