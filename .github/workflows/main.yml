@@ -1,0 +1,14 @@
+on:
+  workflow_dispatch:
+jobs:
+  zip:
+    name: deploy to staging
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: run package-plugin.sh
+        run: |
+          ls
+    
