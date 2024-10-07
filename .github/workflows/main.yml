@@ -2,13 +2,19 @@ on:
   workflow_dispatch:
 jobs:
   zip:
-    name: deploy to staging
+    name: Package plugin file
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: run package-plugin.sh
+      - name: list files
+        run: |
+          ls
+      - name: create zip
+        run: |
+          zip plugin.zip ./
+      - name: list files
         run: |
           ls
     
